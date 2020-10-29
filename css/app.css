@@ -1,0 +1,95 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+html,
+body,
+#map {
+  height: 100%;
+  width: 100%;
+}
+html {
+  font-size: 30px;
+}
+.leaflet-container {
+  background-color: #c5e8ff;
+  font: 30px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.leaflet-container a.leaflet-popup-close-button {
+  font: 30px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.leaflet-container a.leaflet-popup-close-button {
+  padding: 0 0 0 0;
+  width: 30px;
+  height: 30px;
+  margin: -8px 0px 0 0;
+}
+label {
+  font-weight: bold;
+}
+.score-board {
+  z-index: 999;
+  position: absolute;
+  margin-left: 7%;
+  max-width: 100%;
+  font-size: 20px;
+}
+
+.leaflet-popup-content {
+  font-size: 20px !important;
+}
+.game-over {
+  font-size: 30px;
+}
+
+.modal-footer {
+  justify-content: left;
+}
+
+@media only screen and (max-width: 800px) {
+  .game-over {
+    font-size: 15px;
+  }
+
+  .game-over .btn {
+    font-size: 15px !important;
+  }
+}
+@media only screen and (min-width: 800px) {
+  .modal-title {
+    padding-top: 11px;
+  }
+  .score-board {
+    z-index: 999;
+    position: absolute;
+    margin-left: 5%;
+    max-width: 100%;
+    font-size: 30px;
+  }
+  .leaflet-popup-content {
+    font-size: 30px !important;
+  }
+}
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 70px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3b5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55acee;
+  color: white;
+}
+

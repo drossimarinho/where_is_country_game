@@ -1,0 +1,8 @@
+{
+        "name": "Where in the World is this Country? - The Game",
+        "short_name": "Where in the World is this Country? - The Game",
+        "description": "Can you find all countries in the world?",
+        "display": "standalone",
+        "orientation":  "landscape",
+        "scope": "/"
+}

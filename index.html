@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Where in the World is this Country? - The Game</title>
+    <meta charset="utf-8" />
+
+    <meta
+      property="og:title"
+      content="Where in the World is this Country? - The Game"
+    />
+    <meta
+      property="og:description"
+      content="Can you find all countries in the world?"
+    />
+    <meta
+      property="og:image"
+      content="https://whereiscountry.ga/screenshot.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Where in the World is this Country? - The Game"
+    />
+    <meta
+      name="twitter:description"
+      content="Can you find all countries in the world?"
+    />
+    <meta name="twitter:site" content="@danielrm" />
+    <meta
+      name="twitter:image"
+      content="https://whereiscountry.ga/screenshot.png"
+    />
+    <meta name="twitter:creator" content="@danielrm" />
+
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+  </head>
+
+  <body>
+    <div class="score-board">
+      <p>
+        <span style="color: #01b28f">Correct: <span id="correct">0</span></span>
+        &nbsp;
+        <span style="color: #dba800">Region: <span id="region">0</span></span>
+        &nbsp;
+        <span style="color: #b22d01">Wrong: <span id="wrong">0</span></span>
+        &nbsp;
+        <span style="color: #0083c9">Score: <span id="score">0</span></span
+        >&nbsp;<span style="color: #0083c9" id="pointsGot"></span>
+      </p>
+    </div>
+    <div id="map"></div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="questionModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="questionText"></h5>
+          </div>
+          <!-- <div class="modal-body">
+        <span id="questionText"></span>
+      </div> -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="gameOverModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+    >
+      <div class="modal-dialog modal-dialog-centered game-over">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title">GAME OVER!</h6>
+            <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onclick="window.location.reload(true)"
+              >
+                Restart
+              </button>
+          </div>
+          <div class="modal-footer">
+            <p>
+              <span style="color: #01b28f"
+                >Correct: <span id="gameover_correct">0</span></span
+              >
+              &nbsp;
+              <span style="color: #dba800"
+                >Region: <span id="gameover_region">0</span></span
+              >
+              &nbsp;
+              <span style="color: #b22d01"
+                >Wrong: <span id="gameover_wrong">0</span></span
+              >
+            </p>
+            <p>
+              <span style="color: #0083c9"
+                >Score: <span id="gameover_score">0</span></span
+              >&nbsp;<span style="color: #0083c9" id="pointsGot"></span>
+            </p>
+            <p id="gameover_success" style="color: #01b28f"></p>
+            <div class="row">
+              <div class="col-12">
+                <label>Share score:&nbsp</label>
+                <a href="#" class="fa fa-facebook" onclick="shareFacebook()"></a>
+                <a href="#" class="fa fa-twitter" onclick="shareTwitter()"></a>
+              </div>
+            </div>
+            <form action="https://www.paypal.com/donate" method="post" target="_top">
+              <input type="hidden" name="hosted_button_id" value="EA395DU336XHA" />
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+              <img alt="" border="0" src="https://www.paypal.com/en_NL/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+              <small>created by <a href="https://www.linkedin.com/in/daniel-rossi-marinho-2a6860b4/">Daniel Rossi Marinho</a></small>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="difficultyModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered modal-xl"
+        style="min-width: 100% !important; max-width: 100% !important"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" style="font-size: 25px">Where in the World is this Country? - The Game</h5>
+          </div>
+          <div class="modal-body" style="font-size: 15px">
+            <div class="row">
+              <div class="col-8">
+                <form>
+                  <div style="font-size: 25px">
+                    <label>Which game difficulty do you want to play?</label>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="difficulty"
+                        value="Regular"
+                        checked
+                      />
+                      Regular (country borders visible)
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="difficulty"
+                        value="Hard"
+                      />
+                      Hard (country borders hidden)
+                    </div>
+                  </div>
+                  <br/>
+                  <h6>Game rules</h6>
+                  <label>Points</label>
+                  <ul>
+                    <li>Wrong answer: 0</li>
+                    <li>Correct region: 50-90 (depending also on distance)</li>
+                    <li>Correct country: 100</li>
+                  </ul>
+                  <label>Game ends</label>
+                  <ul>
+                    <li>When you get 10 wrong answers</li>
+                    <li>
+                      When you get all countries in the World correct! (What a
+                      challenge!!)
+                    </li>
+                  </ul>
+                  <label>Navigation</label>
+                  <ul>
+                    <li>
+                      If you are playing on your mobile please play with your phone on landscape orientation.
+                    </li>
+                    <li>
+                      You can move freely across the map, and zoom in and out.
+                    </li>
+                    <li>
+                      You should click or tap where you think the country is
+                      located.
+                    </li>
+                  </ul>
+                  <label>Rounds</label>
+                  <ul>
+                    <li>
+                      You can continue to the next round by clicking on the X on
+                      the balloon of the answer.
+                    </li>
+                  </ul>
+                </form>
+              </div>
+              <div class="col-4">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-dismiss="modal"
+                  style="font-size: 100px"
+                  onclick="openFullscreen()"
+                >
+                  Play!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
