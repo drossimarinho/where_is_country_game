@@ -92,4 +92,7 @@ label {
   background: #55acee;
   color: white;
 }
+.small, small {
+  font-size: 50%;
+}
 
