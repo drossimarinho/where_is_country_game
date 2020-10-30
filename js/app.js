@@ -54,13 +54,14 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
       ) {
         question();
       }
+      var horizontalPadding = window.screen.width > 500 ?  window.screen.width / 4 : 0;
       window.popup = L.popup({
         closeOnClick: false,
         keepInView: true,
         autoClose: false,
-        maxWidth: 300,
+        maxWidth: 250,
         autoPanPadding: [
-          window.screen.width / 4,
+          horizontalPadding,
           window.screen.width / 4,
         ],
       });
@@ -75,10 +76,19 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
 
       window.popup._closeButton.onclick = function (e) {
         popupOpen = false;
-        setTimeout(function () {
-          window.popup._close();
-          question();
-        }, 1);
+        if (score.wrong > 9) {
+          $("#gameOverModal").modal();
+          $("#gameover_correct").text(score.correct);
+          $("#gameover_region").text(score.region);
+          $("#gameover_wrong").text(score.wrong);
+          $("#gameover_score").text(score.total.toFixed(0));
+        }
+        else{
+          setTimeout(function () {
+            window.popup._close();
+            question();
+          }, 1);
+        }
       };
 
       var markerColor = "#fc0505";
@@ -148,13 +158,6 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
           });
           score.wrong++;
           $("#wrong").text(score.wrong);
-          if (score.wrong > 9) {
-            $("#gameOverModal").modal();
-            $("#gameover_correct").text(score.correct);
-            $("#gameover_region").text(score.region);
-            $("#gameover_wrong").text(score.wrong);
-            $("#gameover_score").text(score.total.toFixed(0));
-          }
         }
         // console.log(selectedLayer.feature.properties.subregion);
         // console.log(e.target.feature.properties.subregion);
