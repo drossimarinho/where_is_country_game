@@ -60,8 +60,8 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
         autoClose: false,
         maxWidth: 300,
         autoPanPadding: [
-          window.screen.availHeight / 3,
-          window.screen.availHeight / 3,
+          window.screen.width / 4,
+          window.screen.width / 4,
         ],
       });
       window.popup
