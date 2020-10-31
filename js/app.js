@@ -1,4 +1,4 @@
-var myGeoJSONPath = "\custom.geo.json";
+var myGeoJSONPath = "custom.geo.json";
 var myCustomStyle = {
   stroke: true,
   color: "#909090",
@@ -33,6 +33,7 @@ var score = { wrong: 0, correct: 0, region: 0, total: 0 };
 var layers = [];
 var selectedLayer = null;
 var popupOpen = false;
+var gameOver = false;
 var shareText = "";
 
 $("#difficultyModal").modal();
@@ -46,6 +47,10 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
 
     function onMapClick(e) {
       if (popupOpen) return;
+      if(gameOver){
+        openGameOverPopup();
+        return;
+      }
       if (
         !selectedLayer ||
         !selectedLayer.feature ||
@@ -54,16 +59,14 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
       ) {
         question();
       }
-      var horizontalPadding = window.screen.width > 500 ?  window.screen.width / 4 : 0;
+      var horizontalPadding =
+        window.screen.width > 500 ? window.screen.width / 4 : 0;
       window.popup = L.popup({
         closeOnClick: false,
         keepInView: true,
         autoClose: false,
         maxWidth: 250,
-        autoPanPadding: [
-          horizontalPadding,
-          window.screen.width / 4,
-        ],
+        autoPanPadding: [horizontalPadding, window.screen.width / 4],
       });
       window.popup
         .setLatLng(selectedLayer.getBounds().getCenter())
@@ -77,13 +80,9 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
       window.popup._closeButton.onclick = function (e) {
         popupOpen = false;
         if (score.wrong > 9) {
-          $("#gameOverModal").modal();
-          $("#gameover_correct").text(score.correct);
-          $("#gameover_region").text(score.region);
-          $("#gameover_wrong").text(score.wrong);
-          $("#gameover_score").text(score.total.toFixed(0));
-        }
-        else{
+          openGameOverPopup();
+          gameOver = true;
+        } else {
           setTimeout(function () {
             window.popup._close();
             question();
@@ -111,15 +110,11 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
         $("#correct").text(score.correct);
         layers.splice(layers.indexOf(originalSelectedLayer), 1);
         if (layers.length === 0) {
-          $("#gameOverModal").modal();
-          $("#gameover_correct").text(score.correct);
-          $("#gameover_region").text(score.region);
-          $("#gameover_wrong").text(score.wrong);
-          $("#gameover_score").text(score.total.toFixed(0));
+          gameOver = true;
+          openGameOverPopup();
           $("#gameover_success").text(
             "Congratulations! You found all countries! You are a geography master!!"
           );
-          
         }
       } else {
         if (
@@ -162,7 +157,11 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
         // console.log(selectedLayer.feature.properties.subregion);
         // console.log(e.target.feature.properties.subregion);
       }
-      shareText = `My total score was ${score.total.toFixed(0)}! Correct: ${score.correct} Region: ${score.region} Wrong: ${score.wrong} Difficulty: ${difficulty}`;
+      shareText = `My total score was ${score.total.toFixed(0)}! Correct: ${
+        score.correct
+      } Region: ${score.region} Wrong: ${
+        score.wrong
+      } Difficulty: ${difficulty}`;
       //test comment
       $("#score").text(score.total.toFixed(0));
 
@@ -210,6 +209,14 @@ $("#difficultyModal").on("hide.bs.modal", function (e) {
           "Where is " + selectedLayer.feature.properties.brk_name + "?"
         );
       }
+    }
+
+    function openGameOverPopup() {
+      $("#gameOverModal").modal();
+      $("#gameover_correct").text(score.correct);
+      $("#gameover_region").text(score.region);
+      $("#gameover_wrong").text(score.wrong);
+      $("#gameover_score").text(score.total.toFixed(0));
     }
 
     function onEachFeature(feature, layer) {

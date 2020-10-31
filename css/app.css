@@ -16,13 +16,13 @@ html {
   font: 30px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 .leaflet-container a.leaflet-popup-close-button {
-  font: 30px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 .leaflet-container a.leaflet-popup-close-button {
+  font: 55px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   padding: 0 0 0 0;
-  width: 30px;
-  height: 30px;
-  margin: -8px 0px 0 0;
+  width: 70px;
+  height: 70px;
+  margin: -30px -22px 0 0;
 }
 label {
   font-weight: bold;
@@ -33,6 +33,12 @@ label {
   margin-left: 7%;
   max-width: 100%;
   font-size: 20px;
+}
+
+.on-corner{
+    padding: 0 0 0 0 !important;
+    margin-left: -100px !important;
+    margin-top: -40px !important;
 }
 
 .leaflet-popup-content {
@@ -46,6 +52,13 @@ label {
   justify-content: left;
 }
 
+@media only screen and (max-width: 400px){
+  .on-corner{
+    padding: 0 0 0 0 !important;
+    margin-left: 0px !important;
+    margin-top: -40px !important;
+}
+}
 @media only screen and (max-width: 800px) {
   .game-over {
     font-size: 15px;
@@ -55,6 +68,14 @@ label {
     font-size: 15px !important;
   }
 }
+
+@media only screen and (max-width:992px){
+  .modal-xl{
+    min-width: 100% !important; 
+    max-width: 100% !important;
+  }
+}
+
 @media only screen and (min-width: 800px) {
   .modal-title {
     padding-top: 11px;
